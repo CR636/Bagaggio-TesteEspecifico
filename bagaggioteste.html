@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Front-End</title>
+    <link rel="stylesheet" href="bagaggiostyle.css">
+</head>
+<body>
+<section id="calcCorpo">
+    <section>
+        <input type="text" id="visor" value="0" readonly>
+    </section>
+    <section>
+        <button onclick="apaga()">C</button>
+        <button onclick="pi()">pi</button>
+        <button onclick="deletar()">del</button>
+        <button onclick="operador('/')">/</button>
+        <button onclick="numero('7')">7</button>
+        <button onclick="numero('8')">8</button>
+        <button onclick="numero('9')">9</button>
+        <button onclick="operador('*')">*</button>
+        <button onclick="numero('4')">4</button>
+        <button onclick="numero('5')">5</button>
+        <button onclick="numero('6')">6</button>
+        <button onclick="operador('-')">-</button>
+        <button onclick="numero('1')">1</button>
+        <button onclick="numero('2')">2</button>
+        <button onclick="numero('3')">3</button>
+        <button onclick="operador('+')">+</button>
+        <button onclick="interr()">?</button>
+        <button onclick="numero('0')">0</button>
+        <button onclick="numero('.')">.</button>
+        <button onclick="calcula()">=</button>
+    </section>
+</section>
+<script>
+    let visor = document.getElementById('visor');
+    let valor = '';
+    let valoraux = '';
+    let operacao = '';
+    let resultado = 0;
+    const VISORMAXIMO = 30; // máximo de dígitos que o visor pode exibir
+
+    function apaga() { // limpa a calculadora
+        valor = '';
+        operacao = '';
+        resultado = 0;
+        visor.value = '0';
+        valoraux = '';
+    }
+
+    function pi() { // exibe o valor de pi com 10 casas decimais
+        valor = Math.PI.toFixed(10);
+        visor.value = valor;
+    }
+
+    function deletar() { // apaga o último dígito
+        valor = valor.substring(0, valor.length - 1);
+        visor.value = valor;
+    }
+
+    function calcula() { // realiza a operação
+        if (valor === '' || operacao === '') {
+            alert('!!!Valor ou operação vazios\nClique em um valor e escolha uma operação!!!');
+            return;
+        }
+        if (operacao === '+') {
+            resultado = parseFloat(valoraux) + parseFloat(valor);
+        } else if (operacao === '-') {
+            resultado = parseFloat(valoraux) - parseFloat(valor);
+        } else if (operacao === '*') {
+            resultado = parseFloat(valoraux) * parseFloat(valor);
+        } else if (operacao === '/') {
+            resultado = parseFloat(valoraux) / parseFloat(valor);
+        }
+        visor.value = resultado;
+        valor = visor.value;
+        valoraux = '';
+        operacao = '';
+    }
+
+    function operador(op){ // escolhe a operação
+        if (valor === '') {
+            alert('!!!Valor vazio' +
+                '\nClique em um valor antes de escolher uma operação!!!');
+            return;
+        }
+        operacao = op;
+        valoraux = visor.value;
+        valor = '';
+        visor.value = '0';
+    }
+
+    function numero(num) { // exibe o número no visor
+        if (valor.length >= VISORMAXIMO) {
+            alert('!!!Número máximo de dígitos atingido!!!');
+            return;
+        }
+        if (num === '.'){
+            if (!valor.includes('.')) {
+                valor += num;
+                visor.value = valor;
+            }
+        } else {
+            valor += num;
+            visor.value = valor;
+        }
+    }
+    function interr() {
+        alert('Calculadora Teste-Específico Bagaggio, por Caio Reis' +
+            '\nObrigado pela Oportunidade!');
+    }
+</script>
+
+</body>
+</html>
